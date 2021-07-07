@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<string.h>
 
+typedef struct Info Info;
+
 struct Info
 {
     unsigned int roll_no;
@@ -8,7 +10,6 @@ struct Info
     float cgpa;
 };
 
-#define Info struct Info
 
 void input(Info *ptr, int n)
 {
@@ -39,7 +40,7 @@ int main()
     printf("n: ");
     scanf(" %d", &n);
     Info I[n];
-    printf("INPUT:\n\n");
+    printf("\nINPUT:\n");
     input(I, n);
     printf("\nOUTPUT:\n");
     output(I, n);
