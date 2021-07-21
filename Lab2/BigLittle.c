@@ -20,9 +20,9 @@ int main()
     num += *hex[n-1];
     //so if x and num are equal that means our hypothesis was correct
     //else it is Little Endian
-    if(x != num)
-        printf("Little Endian\n");
-    else
+    if(x == num)
         printf("Big Endian\n");
+    else
+        printf("Little Endian\n");
     return 0;
 }
