@@ -26,8 +26,6 @@ int main()
         int n = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr*)&caddr, &len);
         buffer[n] = '\0';
         printf("Client: %s\n", buffer);
-        if(!strcmp(buffer, "exit"))
-            break;
         char buff[25];
         printf("Server: ");
         scanf(" %[^\n]%*c", buff);
