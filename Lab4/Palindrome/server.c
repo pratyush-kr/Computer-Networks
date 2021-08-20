@@ -23,12 +23,17 @@ int main()
     int len = sizeof(caddr);
     while(1)
     {
+        int i=0, c=0;
         int n = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr*)&caddr, &len);
         buffer[n] = '\0';
         printf("Client: %s", buffer);
-        int i=0;
-        while(buffer[i] != '\0')
-            buffer[i++] = toupper(buffer[i]);
+        for(i=0; i<n/2; i++)
+            if(buffer[i] == buffer[n-i-1])
+                c++;
+        if(c == i)
+            strcpy(buffer, "Palindrome");
+        else
+            strcpy(buffer, "Not Palindrome"); 
         sendto(fd, buffer, strlen(buffer), 0, (const struct sockaddr*)&caddr, len);
     }
     close(fd);
