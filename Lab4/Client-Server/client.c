@@ -11,6 +11,11 @@ int main()
 {
     struct sockaddr_in saddr;
     int fd = socket(AF_INET, SOCK_DGRAM, 0);
+    if(fd < 0)
+    {
+        printf("Socket Not Created\n");
+        exit(-1);
+    }
     saddr.sin_family = AF_INET;
     saddr.sin_port = htons(1025);
     saddr.sin_addr.s_addr = INADDR_ANY;
