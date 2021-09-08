@@ -1,0 +1,17 @@
+CN Lab Assignment :
+Q.1) Write the client side and server side program for connection oriented socket
+(TCP) using C where the Client sends two numbers to Server.
+Now Server calculates the sum of that two numbers and sends that sum result to the
+Client. Then Client displays that sum.
+
+
+Q.2) Write the client side and server side program for connection
+oriented socket (TCP) using C where the Client sends an Array with size
+'n' to Server. Now Server sorts that array in ascending order and sends
+that sorted array to the Client. Now Client displays that sorted array.
+
+
+Q.3) Write the client side and server side program for connection
+oriented socket (TCP) using C where both of them will exchange
+messages with each other. If any of them will receive the “exit” message
+from the other end then both of them will close the connection.
