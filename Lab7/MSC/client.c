@@ -5,11 +5,12 @@
 #include<netinet/in.h>
 #include<string.h>
 #include<unistd.h>
+#include<string.h>
 
 void populate(struct sockaddr_in *saddr, int pno)
 {
     saddr->sin_family = AF_INET;
-    saddr->sin_port = pno;
+    saddr->sin_port = htons(pno);
     saddr->sin_addr.s_addr = INADDR_ANY;
 }
 
@@ -21,22 +22,20 @@ int main(int argc, char *argv[])
     printf("Servers: ");
     scanf(" %d", &n);
     struct sockaddr_in saddr[n];
-    int len = sizeof(saddr[0]);
     int fd[n];
     for(int i=0; i<n; i++)
         populate(&saddr[i], atoi(argv[1+i]));
+    int len = sizeof(saddr[0]);
     for(int i=0; i<n; i++)
         fd[i] = socket(AF_INET, SOCK_STREAM, 0);
-    for(int i=0; i<n; i++)
-        connect(fd[i], (struct sockaddr*)&saddr[i], len);
     int i=0;
     char buffer[255];
     while(i < n)
     {
+        connect(fd[i], (struct sockaddr*)&saddr[i], len);
         printf("Client: ");
-        scanf(" %s", buffer);
+        scanf(" %[^\n]%*c", buffer);
         send(fd[i], buffer, strlen(buffer), 0);
-        printf("Buffer: %s\n", buffer);
         int n = recv(fd[i], buffer, sizeof(buffer), 0);
         buffer[n] = '\0';
         printf("Server %d: %s\n", i+1, buffer);
