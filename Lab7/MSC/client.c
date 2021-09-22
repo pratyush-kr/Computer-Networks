@@ -15,25 +15,28 @@ void populate(struct sockaddr_in *saddr, int pno)
 
 int main(int argc, char *argv[])
 {
-    for(int i=0; i<argc; i++)
+    for(int i=1; i<argc; i++)
         printf("Pno: %s\n", argv[i]);
     int n;
     printf("Servers: ");
     scanf(" %d", &n);
-    struct sockaddr_in saddr[3];
+    struct sockaddr_in saddr[n];
     int len = sizeof(saddr[0]);
-    int fd[3] = {0};
+    int fd[n];
     for(int i=0; i<n; i++)
         populate(&saddr[i], atoi(argv[1+i]));
     for(int i=0; i<n; i++)
-        connect(fd[i], (struct sockaddr*)&saddr, len);
+        fd[i] = socket(AF_INET, SOCK_STREAM, 0);
+    for(int i=0; i<n; i++)
+        connect(fd[i], (struct sockaddr*)&saddr[i], len);
     int i=0;
-    while(i < 3)
+    char buffer[255];
+    while(i < n)
     {
         printf("Client: ");
-        char buffer[255];
-        scanf(" %[^\n]%*c", buffer);
+        scanf(" %s", buffer);
         send(fd[i], buffer, strlen(buffer), 0);
+        printf("Buffer: %s\n", buffer);
         int n = recv(fd[i], buffer, sizeof(buffer), 0);
         buffer[n] = '\0';
         printf("Server %d: %s\n", i+1, buffer);
