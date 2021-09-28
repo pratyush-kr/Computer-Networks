@@ -5,17 +5,19 @@
 #include<unistd.h>
 #include<stdlib.h>
 
-int main()
+int main(int argc, char *argv[])
 {
     int fd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in saddr, caddr;
     saddr.sin_addr.s_addr = INADDR_ANY;
     saddr.sin_family = AF_INET;
-    saddr.sin_port = htons(8081);
+    int pno = atoi(argv[1]);
+    saddr.sin_port = htons(pno);
     int len = sizeof(saddr);
     if(bind(fd, (const struct sockaddr*)&saddr, len) < 0)
     {
         printf("Bind Failed\n");
+        close(fd);
         exit(-1);
     }
     listen(fd, 3);
