@@ -25,12 +25,10 @@ void swap(int *xp, int *yp)
 void bubbleSort(int *arr, int n) 
 { 
     int i, j; 
-    for (i = 0; i < n-1; i++)     
-      
-    // Last i elements are already in place 
-    for (j = 0; j < n-i-1; j++) 
-        if (arr[j] > arr[j+1]) 
-            swap(&arr[j], &arr[j+1]); 
+    for (i = 0; i < n-1; i++)
+        for (j = 0; j < n-i-1; j++) 
+            if (arr[j] > arr[j+1]) 
+                swap(&arr[j], &arr[j+1]); 
 }
 
 int main(int argc, char *argv[])
@@ -75,6 +73,7 @@ int main(int argc, char *argv[])
     for(int i=1; i<x.n; i++)
         printf(", %d", x.arr[i]);
     printf("}\n");
+    printf("Sorting Array\n");
     bubbleSort(&x.arr[0], x.n);
     printf("Sending\n");
     send(aid, &x, x.n, 0);
