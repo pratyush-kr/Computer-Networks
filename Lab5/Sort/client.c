@@ -13,11 +13,12 @@ struct Array
     int n;
 };
 
-int main()
+int main(int argc, char *argv[])
 {
     struct sockaddr_in saddr;
     saddr.sin_family = AF_INET;
-    saddr.sin_port = htons(1091);
+    int pno = atoi(argv[1]);
+    saddr.sin_port = htons(pno);
     saddr.sin_addr.s_addr = INADDR_ANY;
     int fd = socket(AF_INET, SOCK_STREAM, 0);
     if(fd < 0)
