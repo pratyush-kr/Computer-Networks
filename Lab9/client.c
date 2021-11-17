@@ -3,6 +3,8 @@
 #include<sys/socket.h>
 #include<netinet/in.h>
 #include<unistd.h>
+#include<string.h>
+#include<stdlib.h>
 
 int main(int argc, char *argv[])
 {
@@ -14,12 +16,15 @@ int main(int argc, char *argv[])
     saddr.sin_port = htons(pno);
     int len = sizeof(saddr);
     connect(fd, (struct sockaddr*)&saddr, len);
-    printf("Client: ");
-    int num = 0;
-    scanf(" %d", &num);
-    send(fd, &num, sizeof(num), 0);
-    recv(fd, &num, sizeof(num), 0);
-    printf("sum: %d\n", num);
+    while(1)
+    {
+        printf("Client: ");
+        char buffer[255];
+        scanf(" %s", buffer);
+        send(fd, buffer, strlen(buffer), 0);
+        buffer[recv(fd, buffer, sizeof(buffer), 0)] = '\0';
+        printf("Server: %s\n", buffer);
+    }
     close(fd);
     return 0;
 }

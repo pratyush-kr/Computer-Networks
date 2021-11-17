@@ -4,6 +4,7 @@
 #include<netinet/in.h>
 #include<unistd.h>
 #include<stdlib.h>
+#include<string.h>
 
 int main(int argc, char *argv[])
 {
@@ -20,22 +21,26 @@ int main(int argc, char *argv[])
         close(fd);
         exit(-1);
     }
-    listen(fd, 3);
-    int i=0;
-    int num;
-    int sum = 0;
-    int id[3];
-    while(i < 3)
+    listen(fd, 10);
+    char buffer[255];
+    int pid;
+    while(1)
     {
-        id[i] = accept(fd, (struct sockaddr*)&caddr, &len);
-        recv(id[i], &num, sizeof(num), 0);
-        printf("Client %d: %d\n", i+1, num);
-        sum += num;
-        i++;
+        int id = accept(fd, (struct sockaddr*)&saddr, &len);
+        pid = fork();
+        if(pid == 0)
+        {
+            buffer[recv(id, buffer, sizeof(buffer), 0)] = '\0';
+            printf("Client: %s\n", buffer);
+            printf("Child: ");
+            scanf(" %s", buffer);
+            send(id, buffer, strlen(buffer), 0);
+        }
+        else if(pid > 0)
+        {
+            printf("I am Parent\n");
+            close(id);
+        }
     }
-    printf("Sum: %d\n", sum);
-    for(int i=0; i<3; i++)
-        send(id[i], &sum, sizeof(sum), 0);
-    close(fd);
     return 0;
 }
