@@ -24,9 +24,12 @@ int main(int argc, char *argv[])
     listen(fd, 10);
     char buffer[255];
     int pid;
+    int clients = 0;
     while(1)
     {
         int id = accept(fd, (struct sockaddr*)&saddr, &len);
+        clients++;
+        printf("Client Count: %d\n", clients);
         pid = fork();
         if(pid == 0)
         {
